@@ -1,3 +1,4 @@
+import AccessDenied from "@/components/accessDenied";
 import QuestionCard from "@/components/admin_dashboard/questionCard";
 import QuestionMCard from "@/components/home/mobile/questionMCard";
 import { baseUrl } from "@/components/lib/api";
@@ -29,8 +30,9 @@ const fetcher = async (url) => {
   } catch (err) {
     console.log(err?.status)
     if (err?.status === 401) {
-      console.log('hell')
       window.location.href = "/login";
+    } else if (err?.status == 403) {
+
     }
     throw err;
   }
@@ -44,7 +46,7 @@ const Index = () => {
 
   const { t } = useTranslation();
 
-  if (error) return <div>عدم دسترسی!</div>;
+  if (error) return <AccessDenied />;
 
 
   return (
