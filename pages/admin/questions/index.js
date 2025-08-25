@@ -6,7 +6,6 @@ import MainLayout from "@/components/mainLayout";
 import Pagination from "@/components/pagination";
 import {
   Box,
-  Button,
   Center,
   Grid,
   GridItem,
@@ -19,7 +18,6 @@ import {
 import axios from "axios";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { BiSortAlt2 } from "react-icons/bi";
 import useSWR from "swr";
 import RightSidebar from "../rightSidebar";
 
@@ -78,7 +76,7 @@ const Index = () => {
                 alignItems={"center"}
               >
                 <Text fontWeight={"bold"} fontSize={"16px"}>
-                  سوال ها
+                  پرسش ها
                 </Text>
                 {/* <Button
                   width={"189px"}
@@ -92,12 +90,13 @@ const Index = () => {
               </HStack>
               <HStack
                 w={"100%"}
-                justifyContent={"space-between"}
-                mb={"10px"}
+                justifyContent={"start"}
+                my={"20px"}
                 alignItems={"center"}
               >
-                <Text fontSize={"14px"}>۲۵۸ سؤال</Text>
-                <HStack>
+                <Text>تعداد سوالات: </Text>
+                <Text fontSize={"14px"}>{dataQuestions?.data?.total_count}</Text>
+                {/* <HStack>
                   <HStack justifyContent={{ base: "start" }}>
                     <BiSortAlt2 color="gray" />
                     <Button
@@ -143,7 +142,7 @@ const Index = () => {
                       محبوبترین‌ها
                     </Button>
                   </HStack>
-                </HStack>
+                </HStack> */}
               </HStack>
 
               <VStack display={{ base: "none", md: "flex" }}>
