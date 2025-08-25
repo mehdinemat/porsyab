@@ -184,7 +184,7 @@ const MainLayout = ({ children }) => {
   }, [filters?.search]);
 
   const handleProfileLink = () => {
-    router.push('/dashboard/profile')
+    router.push('/admin/questions')
   };
 
   return (
@@ -398,7 +398,7 @@ const MainLayout = ({ children }) => {
                       onClick={(e) => handleProfileLink()}
                     >
                       {" "}
-                      مشاهده پروفایل
+                      پنل ادمین
                     </MenuItem>
                     <Divider />
                     <MenuItem onClick={(e) => handleExit()}>خروج</MenuItem>
