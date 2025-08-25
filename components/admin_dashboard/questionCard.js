@@ -17,6 +17,7 @@ import {
   ModalOverlay,
   Text,
   Textarea,
+  Tooltip,
   useDisclosure,
   useToast,
   VStack
@@ -185,16 +186,18 @@ const QuestionCard = ({ data, t, type = "question" }) => {
       {/* Right side action buttons */}
       <HStack>
         {/* Reply button -> open modal */}
-        <IconButton
-          aria-label="Add Answer"
-          icon={<BiMessageAdd />}
-          size="sm"
-          variant="ghost"
-          onClick={(e) => {
-            e.stopPropagation(); // prevent navigation
-            onOpen();
-          }}
-        />
+        <Tooltip label='افزودن جواب'>
+          <IconButton
+            aria-label="Add Answer"
+            icon={<BiMessageAdd />}
+            size="sm"
+            variant="ghost"
+            onClick={(e) => {
+              e.stopPropagation(); // prevent navigation
+              onOpen();
+            }}
+          />
+        </Tooltip>
 
         {/* More options */}
         <Menu>
