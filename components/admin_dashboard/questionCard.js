@@ -186,7 +186,7 @@ const QuestionCard = ({ data, t, type = "question" }) => {
       {/* Right side action buttons */}
       <HStack>
         {/* Reply button -> open modal */}
-        <Tooltip label='افزودن جواب'>
+        <Tooltip label='افزودن پاسخ'>
           <IconButton
             aria-label="Add Answer"
             icon={<BiMessageAdd />}
@@ -238,11 +238,11 @@ const QuestionCard = ({ data, t, type = "question" }) => {
       <Modal isOpen={isOpen} onClose={onClose} size="4xl">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>افزودن جواب</ModalHeader>
+          <ModalHeader>افزودن پاسخ</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Textarea
-              placeholder={'متن جواب...'}
+              placeholder={'متن پاسخ...'}
               value={answerText}
               onChange={(e) => setAnswerText(e.target.value)}
               rows={6}
