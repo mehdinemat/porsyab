@@ -228,6 +228,7 @@ const Header = ({
         >
           <Text
             fontFamily="morabba"
+            fontWeight={'800'}
             fontSize={{ base: "35px", md: "45px" }}
             color={"white"}
             textAlign={{ base: "center", md: "center" }}

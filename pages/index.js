@@ -213,7 +213,7 @@ export default function Home({ children }) {
               height="min-content"
               dir="rtl" // ✅ RTL direction
             >
-              <Text fontWeight="bold" fontSize="16px" mb={4}>
+              <Text fontWeight="800" fontSize="16px" mb={4} fontFamily="morabba">
                 {t("topics")}
               </Text>
               {dataCategory?.data?.map((item, index) => (
@@ -266,7 +266,7 @@ export default function Home({ children }) {
                 mb="20px"
                 overflow="hidden"
               >
-                <Text fontWeight="bold" fontSize="16px">
+                <Text fontWeight="800" fontSize="16px" fontFamily="morabba">
                   {t("hadith_of_the_day")}
                 </Text>
                 <Text mt="10px" whiteSpace="pre-wrap" wordBreak="break-word">
@@ -282,7 +282,7 @@ export default function Home({ children }) {
                 borderRadius={"15px"}
                 height={"min-content"}
               >
-                <Text fontWeight={"bold"} fontSize={"16px"}>
+                <Text fontWeight={"800"} fontSize={"16px"} fontFamily="morabba" >
                   {t("question_sources")}
                 </Text>
                 <VStack mt={"20px"} w={"100%"} alignItems={"start"}>
@@ -320,7 +320,7 @@ export default function Home({ children }) {
               mb={{ base: "20px", md: "10px" }}
               alignItems={{ base: "center", md: "start" }}
             >
-              <Text fontWeight={"700"} fontSize={"22px"} letterSpacing={0}>
+              <Text fontWeight={"800"} fontSize={"22px"} letterSpacing={0} fontFamily="morabba">
                 {t("suggested_questions")}
               </Text>
 

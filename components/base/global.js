@@ -22,7 +22,7 @@ export const Fonts = ({ lang }) => (
        
       @font-face {
         font-family: 'morabba';
-        src: url('/fonts/morabba/Morabba-Regular.ttf') format('truetype');
+        src: url('/fonts/moraba/Morabba-Regular.ttf') format('truetype');
         font-weight: 400;
         font-style: normal;
         font-display: swap;

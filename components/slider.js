@@ -93,7 +93,7 @@ const SliderCom = ({ items, height, borderRadius, width = "auto", title }) => {
       my={"20px"}
     >
       <HStack w={"100%"} justifyContent={"space-between"}>
-        <Text fontWeight={"700"} fontSize={"22px"}>
+        <Text fontWeight={"700"} fontSize={"22px"} fontFamily="morabba">
           {title}
         </Text>
         <Text
