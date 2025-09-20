@@ -55,7 +55,8 @@ const Index = () => {
               src="/porsyab.png"
               width={{ base: "120px", md: "110px" }}
               height={{ base: "50px", md: "138px" }}
-            />            <Text fontSize={{ base: '20px', md: "23px" }} color={"#333333"} w={"327px"} mb={"20px"}>
+            />
+            <Text fontSize={{ base: '20px', md: "23px" }} color={"#333333"} w={"327px"} mb={"20px"} >
               شبکه اجتماعی پرسش و پاسخ دینی
             </Text>
             <Divider w={"350px"} h={"2px"} bgColor={"#29CCCC"} />

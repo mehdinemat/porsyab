@@ -657,7 +657,7 @@ const Index = () => {
                         justifyContent={"space-between"}
                         my={"10px"}
                       >
-                        <Text fontWeight={"bold"} fontSize={"18px"}>
+                        <Text fontWeight={"800"} fontSize={"18px"} fontFamily="morabba">
                           {t(
                             dataQuestionAnswer?.data?.length == 1
                               ? "answer_one"
@@ -933,7 +933,7 @@ const Index = () => {
                   padding={"20px"}
                   w={{ base: "fit-content", md: "100%" }}
                 >
-                  <Text fontWeight={"bold"} fontSize={"16px"} mb={"10px"}>
+                  <Text fontWeight={"800"} fontSize={"16px"} mb={"10px"} fontFamily="morabba">
                     {t("related_questions")}
                   </Text>
                   {dataQuestionSimilar?.data
@@ -964,7 +964,7 @@ const Index = () => {
                   padding={"20px"}
                   my={"20px"}
                 >
-                  <Text fontWeight={"bold"} fontSize={"16px"} mb={"10px"}>
+                  <Text fontWeight={"800"} fontSize={"16px"} mb={"10px"} fontFamily={'morabba'}>
                     {t("most_viewed_questions")}
                   </Text>
                   {dataQuestionSimilar?.data

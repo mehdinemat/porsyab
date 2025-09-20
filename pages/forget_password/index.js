@@ -134,6 +134,8 @@ const Index = () => {
               textAlign={"center"}
               w={"327px"}
               mb={"20px"}
+              fontFamily="morabba"
+              fontWeight={'800'}
             >
               {t("religious")}
             </Text>

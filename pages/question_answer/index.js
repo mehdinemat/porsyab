@@ -63,7 +63,7 @@ const Index = () => {
   const { t } = useTranslation();
 
   const slidesToShow = useBreakpointValue({ base: 1, md: 2, lg: 4 }); // responsive value
-  
+
 
   const router = useRouter();
   const { query } = router;
@@ -665,7 +665,7 @@ const Index = () => {
                   padding={"20px"}
                   w={{ base: "fit-content", md: "100%" }}
                 >
-                  <Text fontWeight={"bold"} fontSize={"16px"} mb={"10px"}>
+                  <Text fontWeight={"bold"} fontSize={"16px"} mb={"10px"} >
                     {t("related_questions")}
                   </Text>
                   {dataQuestionSimilar?.data

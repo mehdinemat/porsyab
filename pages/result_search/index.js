@@ -140,7 +140,7 @@ const Index = ({ children }) => {
             padding={"10px"}
             height={"min-content"}
           >
-            <Text fontWeight={"bold"} fontSize={"16px"}>
+            <Text fontWeight={"800"} fontFamily="morabba" fontSize={"16px"}>
               فیلترها
             </Text>
             <Accordion dir="rtl" mt={"20px"} w="100%" allowMultiple>

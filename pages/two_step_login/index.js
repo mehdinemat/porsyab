@@ -84,6 +84,8 @@ const Index = () => {
               textAlign={"center"}
               w={"327px"}
               mb={"20px"}
+              fontWeight={'800'}
+              fontFamily="morabba"
             >
               شبکه اجتماعی پرسش و پاسخ دینی
             </Text>
