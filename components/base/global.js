@@ -19,6 +19,15 @@ export const Fonts = ({ lang }) => (
         font-display: swap;
       }
 
+       
+      @font-face {
+        font-family: 'morabba';
+        src: url('/fonts/morabba/Morabba-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
       html {
         font-feature-settings: ${lang === "fa" ? `"locl", "ss01"` : "normal"};
       }
