@@ -57,6 +57,7 @@ export default function PhoneInput({ fullNumber, setFullNumber }) {
         pl={0}
         _hover={{ border: "none" }}
         _focusVisible={{ border: "none" }}
+        isDisabled
       >
         {countries.map((c) => (
           <option key={c.code} value={c.code}>

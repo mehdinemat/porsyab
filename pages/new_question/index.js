@@ -84,6 +84,7 @@ const Index = () => {
 
   const [showSuggestions, setShowSuggestions] = useState(false);
   const inputRef = useRef(null);
+  const wrapperRef = useRef(null);
 
   const { t } = useTranslation();
 
@@ -142,8 +143,17 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
-    console.log(dataSearchQuestion, showSuggestions);
-  }, [dataSearchQuestion]);
+    function handleClickOutside(event) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setShowSuggestions(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [wrapperRef]);
 
   return (
     <MainLayout>
@@ -171,7 +181,7 @@ const Index = () => {
           onSubmit={handleSubmitQuestion(handleAddNewQuestion)}
         >
           <Text fontWeight={"bold"} fontSize={"20px"} mb={"30px"}>
-            {t("ask_your_question")}...
+            {t("ask_your_question")}
           </Text>
           {/* <Masonry
           width={"100%"}
@@ -189,18 +199,22 @@ const Index = () => {
               <Text fontWeight={"bold"} fontSize={"16px"} mb={"10px"}>
                 {t("question_title")}
               </Text>
-              <Box position="relative" w="100%">
+              <Box position="relative" w="100%" ref={wrapperRef}>
                 <Input
                   {...registerQuestion("title")}
-                  onBlur={(e) => {
-                    setQueryToSearch(e?.target.value);
-                    setTimeout(() => setShowSuggestions(true), 200); // delay to allow click
-                  }}
+                  // onBlur={(e) => {
+                  //   setQueryToSearch(e?.target.value);
+                  //   setTimeout(() => setShowSuggestions(true), 200); // delay to allow click
+                  // }}
                   onFocus={(e) => {
                     if (e?.target.value) {
                       setQueryToSearch(e?.target.value);
                       setShowSuggestions(false);
                     }
+                  }}
+                  onChange={e => {
+                    setQueryToSearch(e?.target.value);
+                    setTimeout(() => setShowSuggestions(true), 200);
                   }}
                 />
                 {showSuggestions &&
