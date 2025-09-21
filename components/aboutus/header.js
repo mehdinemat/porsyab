@@ -66,7 +66,7 @@ const Header = ({ children }) => {
       bg={"#3646B3"}
       p={2}
       px={4}
-      bgImage={"./homeheader.png"}
+      bgImage={"/porsyabhomeheader.png"}
       bgSize="cover" // 👈 this makes it cover the container
       bgRepeat="no-repeat"
       bgPosition="center"

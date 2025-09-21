@@ -315,10 +315,7 @@ const Index = () => {
                   }
                 }}
               />
-              {console.log(
-                dataQuestionLike?.data?.result,
-                dataMe?.data?.[0]?.username
-              )}
+
               <Text>{dataQuestionLike?.data?.count}</Text>
               <IconButton
                 icon={<IoArrowDown color="gray" />}

@@ -110,7 +110,7 @@ const Index = () => {
           </VStack>
         </Grid>
         <HStack w={'100%'} justifyContent={'center'} my={'40px'} position={'relative'}>
-          <Image src="../../parsaoutline.png" width={{ base: '300px', md: '750px' }} height={{ base: '150px', md: '300px' }} />
+          <Box width={{ base: '300px', md: '750px' }} height={{ base: '150px', md: '300px' }} />
           <VStack position={'absolute'}>
             <Text fontWeight={'bold'} fontSize={'20px'}>تیم پرس‌یاب</Text>
             <Text color={'gray'}>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</Text>
