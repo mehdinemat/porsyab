@@ -280,9 +280,9 @@ export default function Home({ children }) {
                 <Text fontWeight={"bold"} fontSize={"16px"}>
                   {t("hadith_of_the_day")}
                 </Text>
-                <Text mt={"10px"} whiteSpace="pre-wrap">
+                {/* <Text mt={"10px"} whiteSpace="pre-wrap">
                   {dataHadith?.data}
-                </Text>
+                </Text> */}
               </Box>
               <Box
                 w={"100%"}

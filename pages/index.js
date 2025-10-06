@@ -269,9 +269,9 @@ export default function Home({ children }) {
                 <Text fontWeight="800" fontSize="16px" fontFamily="morabba">
                   {t("hadith_of_the_day")}
                 </Text>
-                <Text mt="10px" whiteSpace="pre-wrap" wordBreak="break-word">
+                {/* <Text mt="10px" whiteSpace="pre-wrap" wordBreak="break-word">
                   {dataHadith?.data}
-                </Text>
+                </Text> */}
               </Box>
 
               <Box
