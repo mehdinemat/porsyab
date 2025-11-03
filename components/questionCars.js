@@ -1,4 +1,4 @@
-import { Badge, Divider, HStack, Text, VStack, Wrap } from "@chakra-ui/react";
+import { Avatar, Badge, Divider, HStack, Text, VStack, Wrap } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { IoEyeOutline } from "react-icons/io5";
@@ -48,7 +48,7 @@ const QuestionCard = ({ data, t, type = "question", bgColor }) => {
     0px 69px 19px 0px #00000000
   `}
       borderRadius="30px"
-      padding="10px"
+      padding="18px"
     >
       {/* <Image src="/minquestion.png" w={'23px'} height={'32px'} mt={'10px'} mr={'10px'} /> */}
       <VStack w={"100%"} alignItems={"start"} gap={"15px"} >
@@ -71,7 +71,7 @@ const QuestionCard = ({ data, t, type = "question", bgColor }) => {
 
           <HStack w={'100%'} justifyContent={'center'}>
 
-          <Wrap spacing="8px" w={"100%"}>
+            <Wrap spacing="8px" w={"100%"}>
               {data?.tags?.map((item, index) => (
                 <Badge
                   // onClick={(e) => handleClickTags(item)}
@@ -98,13 +98,13 @@ const QuestionCard = ({ data, t, type = "question", bgColor }) => {
             <HStack ml={'40px'}>
               {data?.source && (
                 <HStack>
-                  {/* <Avatar size={"sm"} /> */}
+                  <Avatar size={"sm"} />
                   <Text color={"#999999"} w={"fit-content"} whiteSpace={'nowrap'}>
                     {data?.source}
                   </Text>
                 </HStack>
               )}
-            </HStack>    
+            </HStack>
 
           </HStack>
 

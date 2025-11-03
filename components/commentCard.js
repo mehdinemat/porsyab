@@ -1,5 +1,5 @@
 import { Box, Button, HStack, Input, Text, VStack } from "@chakra-ui/react"
-import SliderCommnet from "./sliderCommnet"
+import SliderCommnet from "./sliderComment"
 
 const CommentCard = ({ t }) => {
   return (
@@ -16,10 +16,10 @@ const CommentCard = ({ t }) => {
         </Text>
       </VStack>
 
-      <HStack w={'100%'} gap={{ base: 'none', md: 'auto' }}>
-        <Input height={{ base: '35px', md: '61px' }} bgColor={'white'} placeholder="نوشتن متن..." borderRadius={'10px'}
+      <HStack w={'100%'} gap={{ base: 'none', md: '10px' }}>
+        <Input height={{ base: '35px', md: '61px' }} bgColor={'white'} placeholder="نوشتن متن..." borderRadius={'30px'}
         />
-        <Button bgColor={'#3646B3'} fontWeight={'800'} fontSize={{ base: '10px', md: '18px' }} w={'135px'} h={{ base: '35px', md: '61px' }} color={'white'} type="submit" borderRadius={'10px'}>
+        <Button bgColor={'#006A71'} fontWeight={'800'} fontSize={{ base: '10px', md: '18px' }} w={'135px'} h={{ base: '35px', md: '61px' }} color={'white'} type="submit" borderRadius={'30px'}>
           ارسال دیدگاه
         </Button>
       </HStack>

@@ -19,7 +19,7 @@ import {
   Stack,
   Text,
   useBreakpointValue,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import axios from "axios";
 import moment from "moment-jalaali";
@@ -31,11 +31,12 @@ import { useTranslation } from "react-i18next";
 import {
   IoIosArrowBack,
   IoIosArrowForward,
-  IoMdCheckmarkCircleOutline,
+  IoMdCheckmarkCircleOutline
 } from "react-icons/io";
 import { TbBookmark } from "react-icons/tb";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
+
 
 const answer = [
   "لورم ایپسوم متن ساختگی با تولید سادگی از صنعت چاپ، و  متن از صنعت چاپ، و با استفاده از طراحان گرافیــک اســت، لورم ایپسوم ساختگی با تولید سادگی از",
@@ -84,6 +85,7 @@ const Index = () => {
 
   const [showMore, setShowMore] = useState(false);
   const [like, setLike] = useState(false);
+  const [answerPage, setAnswerPage] = useState(0)
 
   const [contentTest, setContentTest] = useState(
     "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرن گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی،"
@@ -280,7 +282,7 @@ const Index = () => {
           {dataQuestion?.data?.result?.[0]?.title ||
             dataQuestion?.data?.result?.[0]?.content}
         </title>
-        <link rel="icon" href="/question.png" />
+        <link rel="icon" href="/porsyab_header.png" />
       </Head>
       <Box
         marginTop={{ base: "0px", md: "10px" }}
@@ -444,9 +446,9 @@ const Index = () => {
                       )} */}
                       <HStack
                         alignItems={"start"}
-                        bgColor={"#3646B31A"}
+                        bgColor={"#006A711A"}
                         padding={"8px"}
-                        borderRadius={"10px"}
+                        borderRadius={"30px"}
                         w={"100%"}
                       >
                         <IoIosArrowForward
@@ -503,6 +505,7 @@ const Index = () => {
                           color={"#999999"}
                           fontSize={"16px"}
                           display={{ base: "none", md: "block" }}
+                          mt={'5px'}
                         >
                           {dataQuestionAnswer?.data &&
                             dataQuestionAnswer?.data?.length}{" "}
@@ -555,7 +558,7 @@ const Index = () => {
                       padding={{ base: "none", md: "0px" }}
                       px={{ base: "5px", md: "20px" }}
                       bgColor={"#F7F7F7"}
-                      borderRadius={"10px"}
+                      borderRadius={"30px"}
                       mb={"10px"}
                       mr={{ base: "0px", md: "0px" }}
                     >
@@ -568,9 +571,9 @@ const Index = () => {
                           {t(dataQuestionAnswer?.data?.length == 1 ? "answer_one" : "answers")}
                         </Text>
                       </HStack> */}
-                      {dataQuestionAnswer?.data?.map((answer) => (
-                        <HStack alignItems={"start"} gap={"10px"} w={"100%"}>
-                          {/* <VStack>
+                      {/* {dataQuestionAnswer?.data?.map((answer) => ( */}
+                      <HStack alignItems={"start"} gap={"10px"} w={"100%"}>
+                        {/* <VStack>
                               <IconButton
                                 icon={
                                   <IoArrowUp
@@ -633,89 +636,82 @@ const Index = () => {
                                 size={"lg"}
                               />
                             </VStack> */}
-                          <VStack
-                            w={"100%"}
-                            alignItems={"start"}
-                            px={"2px"}
-                            pt={"25px"}
-                          >
-                            <Flex
-                              flexDir={{ base: "column", md: "row" }}
-                              w={"100%"}
-                              justifyContent={"space-between"}
-                            >
-                              <HStack>
-                                <Avatar w={"28px"} h={"28px"} />
-                                <Text fontSize={"16px"} color={"#999999"}>
-                                  {answer?.source}
+                        <VStack
+                          w={"100%"}
+                          alignItems={"start"}
+                          px={"2px"}
+                          pt={"25px"}
+                        >
+                          <Box position="relative" w="100%">
+                            <HStack w="100%" justifyContent="space-between" position="relative">
+                              {/* Left section */}
+                              {dataQuestionAnswer?.data?.[answerPage]?.source && <HStack>
+                                <Avatar w="28px" h="28px" />
+                                <Text fontSize="16px" color="#999999">
+                                  {dataQuestionAnswer?.data?.[answerPage]?.source}
                                 </Text>
-                              </HStack>
-                              <Text
-                                mt={{ base: "15px", md: "0px" }}
-                                fontSize={"16px"}
-                                color={"#999999"}
-                                fontWeight={"100"}
+                              </HStack>}
+
+                              {/* Center section */}
+                              <Box
+                                as={HStack}
+                                bgColor="white"
+                                borderRadius="30px"
+                                position="absolute"
+                                left="50%"
+                                transform="translateX(-50%)"
                               >
-                                {moment(answer?.created_at).format(
-                                  "jYYYY/jMM/jDD"
-                                )}
-                              </Text>
-                            </Flex>
-                            <Collapse startingHeight={80} in={showMore}>
-                              <Text
-                                lineHeight="190%"
-                                w="fit-content"
-                                textAlign="justify"
-                                fontSize={{ base: "14px", md: "17px" }}
-                                fontWeight="400"
-                                whiteSpace="pre-wrap"
-                                mt="20px"
-                                color="#333333"
-                              >
-                                {answer?.content}
-                              </Text>
-                            </Collapse>
-                            <HStack
-                              w={"100%"}
-                              justifyContent={{
-                                base: "start",
-                                md: "space-between",
-                              }}
-                              mt={"10px"}
+                                <IconButton isDisabled={answerPage == 0} icon={<IoIosArrowForward />} color="#006A71" onClick={e => setAnswerPage(answerPage - 1)} />
+                                <Text color="#006A71" fontWeight={'600'} fontSize={'16px'}>پاسخ شماره {answerPage + 1}</Text>
+                                <IconButton isDisabled={answerPage == (dataQuestionAnswer?.data?.length - 1)} icon={<IoIosArrowBack />} color="#006A71" onClick={e => setAnswerPage(answerPage + 1)} />
+                              </Box>
+
+                              {/* Optional right filler (for symmetry) */}
+                              <Box w="28px" /> {/* empty box to balance layout if needed */}
+                            </HStack>
+                          </Box>
+
+                          <Collapse startingHeight={80} in={showMore}>
+                            <Text
+                              lineHeight="190%"
+                              w="fit-content"
+                              textAlign="justify"
+                              fontSize={{ base: "14px", md: "16px" }}
+                              fontWeight="400"
+                              whiteSpace="pre-wrap"
+                              mt="20px"
+                              color="#333333"
                             >
-                              {(showMore || answer?.content?.length < 200) && (
+                              {dataQuestionAnswer?.data?.[answerPage]?.content}
+                            </Text>
+                          </Collapse>
+                          <HStack
+                            w={"100%"}
+                            justifyContent={{
+                              base: "start",
+                              md: "space-between",
+                            }}
+                            mt={"10px"}
+                          >
+                            {(showMore || dataQuestionAnswer?.data?.[answerPage]?.content?.length < 200) && (
+                              <HStack
+                                order={{ base: 1 }}
+                                w={"100%"}
+                                justifyContent={"space-between"}
+                              >
+
                                 <HStack
-                                  order={{ base: 1 }}
-                                  w={"100%"}
-                                  justifyContent={"space-between"}
+                                  w={{ base: "140px", md: "100%" }}
+                                  justifyContent={{ base: "start" }}
+                                  flexWrap="wrap"
                                 >
-                                  <HStack
-                                    w={{ base: "140px", md: "100%" }}
-                                    justifyContent={{ base: "start" }}
-                                    flexWrap="wrap"
-                                  >
-                                    {dataQuestion?.data?.result?.[0]?.tags?.map(
-                                      (tag) => (
-                                        <Badge
-                                          bgColor={"#29CCCC1A"}
-                                          color={"#16A6A6"}
-                                          padding={"5px"}
-                                          borderRadius={"5px"}
-                                          w={{ base: "min-content" }}
-                                          textAlign={"center"}
-                                          fontWeight={'400'}
-                                        >
-                                          {tag?.name}
-                                        </Badge>
-                                      )
-                                    )}
-                                  </HStack>
                                   <Button
                                     bgColor={"white"}
                                     color={!like ? "#CCCCCC" : "green.300"}
                                     fontWeight={"500"}
                                     fontSize={"16px"}
                                     borderRadius={"18px"}
+                                    h={'37px'}
                                     leftIcon={
                                       <IoMdCheckmarkCircleOutline
                                         fontSize={"25px"}
@@ -725,31 +721,70 @@ const Index = () => {
                                   >
                                     پسند
                                   </Button>
+                                  {dataQuestion?.data?.result?.[0]?.tags?.map(
+                                    (tag) => (
+                                      <Badge
+                                        bgColor={"#E6F1F1"}
+                                        color={"#006A71"}
+                                        padding={"15px"}
+                                        borderRadius={"21px"}
+                                        w={{ base: "min-content" }}
+                                        textAlign={"center"}
+                                        fontWeight={'400'}
+                                        fontSize={'17px'}
+                                        height={'37px'}
+                                        display="flex"
+                                        alignItems="center"
+                                        justifyContent="center"
+
+                                      >
+                                        {tag?.name}
+                                      </Badge>
+                                    )
+                                  )}
                                 </HStack>
-                              )}
-                            </HStack>
-                            {!showMore && answer?.content?.length > 200 && (
-                              <Stack
-                                flexDir={"row"}
-                                color={"#3646B3"}
-                                alignItems={"center"}
-                                cursor={"pointer"}
-                                onClick={(e) => setShowMore(true)}
-                                mt={"13px"}
-                              >
-                                <Text
-                                  fontWeight={"500"}
-                                  fontSize={"14px"}
-                                  lineHeight={"176%"}
+
+                                <Flex
+                                  flexDir={{ base: "column", md: "row" }}
+                                  justifyContent={"space-between"}
                                 >
-                                  مشاهده کامل
-                                </Text>
-                                <IoIosArrowBack />
-                              </Stack>
+
+                                  <Text
+                                    mt={{ base: "15px", md: "0px" }}
+                                    fontSize={"16px"}
+                                    color={"#999999"}
+                                    fontWeight={"100"}
+                                  >
+                                    {moment(dataQuestionAnswer?.data?.[answerPage]?.created_at).format(
+                                      "jYYYY/jMM/jDD"
+                                    )}
+                                  </Text>
+                                </Flex>
+                              </HStack>
                             )}
-                          </VStack>
-                        </HStack>
-                      ))}
+                          </HStack>
+                          {!showMore && dataQuestionAnswer?.data?.[answerPage]?.content?.length > 200 && (
+                            <Stack
+                              flexDir={"row"}
+                              color={"#3646B3"}
+                              alignItems={"center"}
+                              cursor={"pointer"}
+                              onClick={(e) => setShowMore(true)}
+                              mt={"13px"}
+                            >
+                              <Text
+                                fontWeight={"500"}
+                                fontSize={"14px"}
+                                lineHeight={"176%"}
+                              >
+                                مشاهده کامل
+                              </Text>
+                              <IoIosArrowBack />
+                            </Stack>
+                          )}
+                        </VStack>
+                      </HStack>
+                      {/* ))} */}
 
                       <Divider mt={"20px"} borderColor={"gray.200"} />
                     </Box>
@@ -803,7 +838,7 @@ const Index = () => {
                         >
                           <Input
                             w={"100%"}
-                            borderRadius={"5px"}
+                            borderRadius={"30px"}
                             height={{ base: "35px", md: "61px" }}
                             placeholder="نوشتن متن..."
                             border={"1px"}
@@ -813,8 +848,8 @@ const Index = () => {
                           />
                           <Button
                             isLoading={isMutatingQuestionAnswer}
-                            bgColor={"#F9C96D"}
-                            borderRadius={"5px"}
+                            bgColor={"#00D2A1"}
+                            borderRadius={"30px"}
                             color={"black"}
                             width={{ base: "72px", md: "220px" }}
                             height={{ base: "32px", md: "61px" }}
