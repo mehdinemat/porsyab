@@ -85,7 +85,7 @@ const SliderCom = ({ items, height, borderRadius, width = "auto", title }) => {
     <VStack
       w={"100%"}
       border={"1px"}
-      borderColor={"gray.200"}
+      borderColor={"#006A71"}
       borderRadius={"16px"}
       p={"40px"}
       alignItems={"start"}
@@ -93,7 +93,7 @@ const SliderCom = ({ items, height, borderRadius, width = "auto", title }) => {
       my={"20px"}
     >
       <HStack w={"100%"} justifyContent={"space-between"}>
-        <Text fontWeight={"700"} fontSize={"22px"} fontFamily="morabba">
+        <Text fontWeight={"700"} fontSize={"22px"} fontFamily="morabba" color={'#006A71'}>
           {title}
         </Text>
         <Text

@@ -764,16 +764,16 @@ const Header = ({
                     alignItems={"center"}
                     gap={"5px"}
                     bgColor={"#FFFFFF0D"}
-                    border={"1px"}
-                    borderColor={"#3646B3"}
-                    borderRadius={"10px"}
+                    borderRadius={"20px"}
                     padding={"5px"}
                   >
                     <Button
-                      leftIcon={<IoSearch fontSize={{ base: '1px', md: "20px" }} size={currentSize == "base" ? '14px' : '22px'} color="#3646B3" />}
-                      bgColor={"#3646B333"}
-                      color={"#081438"}
-                      borderRadius={'6px'}
+                      leftIcon={<IoSearch fontSize={{ base: '1px', md: "20px" }} size={currentSize == "base" ? '14px' : '22px'} color="#006A71" />}
+                      bgColor={"#0098751A"}
+                      color={"#006A71"}
+                      border={'1px'}
+                      borderColor={'#006A71'}
+                      borderRadius={'15px'}
                       onClick={(e) => handleClickSearch()}
                       fontSize={{ base: "6px", md: "14px" }}
                       height={{ base: "22px", md: "30px" }}
@@ -784,7 +784,9 @@ const Header = ({
                     <Button
                       height={{ base: "22px", md: "30px" }}
                       fontSize={{ base: "6px", md: "14px" }}
-                      borderRadius={'6px'}
+                      border={'1px'}
+                      borderColor={'#006A71'}
+                      borderRadius={'15px'}
                       onClick={(e) => handleClickSemanticSearch()}
                       leftIcon={
                         <svg
@@ -800,26 +802,26 @@ const Header = ({
                           />
                           <path
                             d="M15.5129 16.6387L12.0137 13.2129"
-                            stroke="#3646B3"
+                            stroke="#006A71"
                             stroke-width="1.5"
                             stroke-linecap="round"
                             stroke-linejoin="round"
                           />
                           <path
                             d="M13.9003 8.745C13.9003 12.2326 11.0124 15.0598 7.45013 15.0598C3.88782 15.0598 1 12.2326 1 8.745C1 5.25742 3.88782 2.43018 7.45013 2.43018"
-                            stroke="#3646B3"
+                            stroke="#006A71"
                             stroke-width="1.5"
                             stroke-linecap="round"
                             stroke-linejoin="round"
                           />
                           <path
                             d="M11.1696 0.232422L11.61 2.01061C11.9087 3.21516 12.8889 4.15473 14.1454 4.44107L16.0003 4.86329L14.1454 5.28552C12.8889 5.57185 11.9087 6.51142 11.61 7.71597L11.1696 9.49416L10.7292 7.71597C10.4305 6.51142 9.45034 5.57185 8.1938 5.28552L6.33887 4.86329L8.1938 4.44107C9.45034 4.15473 10.4305 3.21516 10.7292 2.01061L11.1696 0.232422Z"
-                            fill="#3646B3"
+                            fill="#006A71"
                           />
                         </svg>
                       }
-                      bgColor={"#3646B333"}
-                      color={"#081438"}
+                      bgColor={"#0098751A"}
+                      color={"#006A71"}
                       width={{ base: "50px", md: "auto" }}
                     >
                       معنایی
@@ -840,7 +842,7 @@ const Header = ({
                       w={{ base: "87px", md: "109px" }}
                       height={{ base: "32px", md: "40px" }}
                       color={"#006A71"}
-                      borderRadius={{base:"8px" ,md:"20px"}}
+                      borderRadius={{ base: "8px", md: "20px" }}
                       rightIcon={
                         <IoSearch fontSize={{ base: "10px", md: "25px" }} size={currentSize == 'base' ? '18px' : '25px'} />
                       }
@@ -876,7 +878,7 @@ const Header = ({
                     fontSize={{ base: "12px", md: "14px" }}
                     fontWeight={"700"}
                     color={"white"}
-                    borderRadius={{base:'10px' ,md:"20px"}}
+                    borderRadius={{ base: '10px', md: "20px" }}
                     leftIcon={
                       currentSize != "base" ? (
                         <svg
