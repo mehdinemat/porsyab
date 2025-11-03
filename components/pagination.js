@@ -1,14 +1,8 @@
 // components/Pagination.js
-import React from 'react';
-import { HStack, IconButton, Button, Text } from '@chakra-ui/react';
-import {
-  FaAngleDoubleLeft,
-  FaAngleLeft,
-  FaAngleRight,
-  FaAngleDoubleRight,
-} from 'react-icons/fa';
+import { Button, HStack, IconButton, Text } from '@chakra-ui/react';
+import { IoChevronBack } from 'react-icons/io5';
 
-const Pagination = ({ currentPage, totalPages, onPageChange , t }) => {
+const Pagination = ({ currentPage, totalPages, onPageChange, t }) => {
   const maxButtons = 5;
   const getPageNumbers = () => {
     const pages = [];
@@ -37,27 +31,31 @@ const Pagination = ({ currentPage, totalPages, onPageChange , t }) => {
       <Button
         onClick={() => onPageChange(1)}
         variant={currentPage === 1 ? 'solid' : 'outline'}
-        colorScheme={currentPage === 1 ? 'blue' : 'gray'}
+        // colorScheme={currentPage === 1 ? 'blue' : 'gray'}
+        bgColor={currentPage === 1 ? '#006A71' : '#E5E5E5'}
+        borderColor={'gray.200'}
         size="sm"
+        borderRadius={'11px'}
       >
         1
       </Button>
 
       {getPageNumbers().map((page, idx) =>
         page === 'left-ellipsis' || page === 'right-ellipsis' ? (
-          <Text key={page + idx} px={2}>
-            ...
+          <Text key={page + idx} >
+
           </Text>
         ) : (
           <Button
-          
+
             key={page}
             onClick={() => onPageChange(page)}
             variant={currentPage === page ? 'solid' : 'outline'}
-            bgColor={currentPage == page ? '#29CCCC' : 'white'}
+            bgColor={currentPage == page ? '#006A71' : '#E5E5E5'}
             borderColor={'gray.200'}
             // colorScheme={currentPage === page ? '#29CCCC' : 'gray'}
             size="sm"
+            borderRadius={'11px'}
           >
             {page}
           </Button>
@@ -68,19 +66,19 @@ const Pagination = ({ currentPage, totalPages, onPageChange , t }) => {
         <Button
           onClick={() => onPageChange(totalPages)}
           variant={currentPage === totalPages ? 'solid' : 'outline'}
-          bgColor={currentPage == totalPages ? '#29CCCC' : 'white'}
-            borderColor={'gray.200'}
+          bgColor={currentPage == totalPages ? '#006A71' : '#E5E5E5'}
+          borderColor={'gray.200'}
           size="sm"
+          borderRadius={'11px'}
         >
-          {totalPages}
+          صفحه آخر
         </Button>
       )}
 
-        <Button colorScheme='gray' variant={'outline'} onClick={() => onPageChange(currentPage + 1)} isDisabled={currentPage === totalPages} size={'sm'}>
-          {t('next')}
-        </Button>
+      <IconButton icon={<IoChevronBack />} bgColor='#006A71' color={'white'} variant={'outline'} onClick={() => onPageChange(currentPage + 1)} isDisabled={currentPage === totalPages} size={'sm'} borderRadius={'11px'}>
+      </IconButton>
 
-   
+
     </HStack>
   );
 };
