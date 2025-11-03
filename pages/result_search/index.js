@@ -693,7 +693,7 @@ const Index = ({
                           fontWeight={"700"}
                           width={"max-content"}
                         >
-                         پاسخ اجمالی هوشمند
+                          پاسخ اجمالی هوشمند
                         </Text>
                       </HStack>
                     </Tab>
@@ -1431,10 +1431,10 @@ const Index = ({
               className="questionlist"
             >
               <HStack mb={"10px"} ml={"20px"}>
-                <IoSearch color={"#3646B3"} fontSize={"22px"} />
+                <IoSearch color={"#006A71"} fontSize={"22px"} />
                 <Text
                   fontSize={{ base: "20px", md: "30px" }}
-                  color={"#3646B3"}
+                  color={"#006A71"}
                   whiteSpace={"nowrap"}
                 >
                   نتایج جستجو بین سوالات
@@ -1487,7 +1487,7 @@ const Index = ({
                         fontFamily="iransans"
                         fontWeight="500"
                         fontSize="20px"
-                        color="#3646B3"
+                        color="#006A71"
                         opacity={0} // hidden initially
                         transition="opacity 0.4s ease" // smooth fade on leave
                         _groupHover={{
@@ -1501,7 +1501,7 @@ const Index = ({
                     )}
 
                     <IconButton
-                      icon={<IoOptionsOutline color="#3646B3" />}
+                      icon={<IoOptionsOutline color="#006A71" />}
                       fontSize="31px"
                     />
                   </HStack>
@@ -1512,7 +1512,7 @@ const Index = ({
                   as={HStack}
                   justifyContent={"space-between"}
                   w={"calc( 100% - 40px )"}
-                  bgColor={"#3646B31A"}
+                  bgColor={"#006A7133"}
                   overflow={"hidden"}
                   height={"60px"}
                   borderRadius={"10px"}
@@ -1524,7 +1524,7 @@ const Index = ({
                   />
                   <Box>
                     <IoMdClose
-                      color="#3646B3"
+                      color="#006A71"
                       fontSize={"24px"}
                       width={"fit-content"}
                       cursor={"pointer"}

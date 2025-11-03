@@ -478,11 +478,12 @@ const MainLayout = ({
                   w={"100%"}
                 >
                   <Flex flexDir={{ base: 'row', md: 'column' }} gap={'10px'} alignItems={'center'}>
-                    <Image src="/question.png" width={"51px"} height={"72px"} />
                     <Image
-                      src="/parsaheader.png"
-                      width={"118px"}
-                      height={"48px"}
+                      src="/logoheader2.png"
+                      width={{ base: "49px", md: "250px" }}
+                      height={{ base: "23px", md: "70px" }}
+                      onClick={(e) => router.push("/")}
+                      cursor={"pointer"}
                     />
                   </Flex>
                   <Text
@@ -505,7 +506,7 @@ const MainLayout = ({
                     w={"100%"}
                   >
                     <Text
-                      color={"#3646B3"}
+                      color={"#006A71"}
                       fontSize={"22px"}
                       fontWeight={"bold"}
                       fontFamily={"morabba"}
@@ -522,7 +523,7 @@ const MainLayout = ({
                         li: {
                           color: "black",
                           "::marker": {
-                            color: "#29CCCC", // custom bullet color
+                            color: "#009875", // custom bullet color
                           },
                         },
                       }}
@@ -567,7 +568,7 @@ const MainLayout = ({
                     mb={{ base: '10px', md: 'none' }}
                   >
                     <Text
-                      color={"#3646B3"}
+                      color={"#006A71"}
                       fontSize={"22px"}
                       fontWeight={"bold"}
                       fontFamily={"morabba"}
@@ -579,7 +580,7 @@ const MainLayout = ({
                     <HStack gap={"20px"}>
                       <IconButton
                         icon={
-                          <IoLogoTwitter color="#29CCCC" fontSize={"20px"} />
+                          <IoLogoTwitter color="#009875" fontSize={"20px"} />
                         }
                         boxShadow={`
                         0px 2px 4px 0px #0000000D,
@@ -591,7 +592,7 @@ const MainLayout = ({
                       />
                       <IconButton
                         icon={
-                          <IoLogoInstagram color="#29CCCC" fontSize={"20px"} />
+                          <IoLogoInstagram color="#009875" fontSize={"20px"} />
                         }
                         boxShadow={`
                         0px 2px 4px 0px #0000000D,
@@ -602,7 +603,7 @@ const MainLayout = ({
                       `}
                       />
                       <IconButton
-                        icon={<FaTelegram color="#29CCCC" fontSize={"20px"} />}
+                        icon={<FaTelegram color="#009875" fontSize={"20px"} />}
                         boxShadow={`
                         0px 2px 4px 0px #0000000D,
                         0px 8px 8px 0px #0000000A,
@@ -628,7 +629,7 @@ const MainLayout = ({
                   padding={"20px"}
                 >
                   <Text
-                    color={"#3646B3"}
+                    color={"#006A71"}
                     bgColor={"#F7F7F7"}
                     px={"10px"}
                     fontSize={"22px"}
@@ -642,20 +643,20 @@ const MainLayout = ({
                   </Text>
                   <HStack alignItems={"center"} textAlign={"start"} mt={"20px"}>
                     <IconButton
-                      icon={<IoLocation color="#29CCCC" fontSize={"20px"} />}
+                      icon={<IoLocation color="#009875" fontSize={"20px"} />}
                     />
                     <Text fontSize={"18px"} dir="ltr">0253 222 33 44</Text>
                   </HStack>
                   <HStack>
                     <IconButton
-                      icon={<IoCall color="#29CCCC" fontSize={"20px"} />}
+                      icon={<IoCall color="#009875" fontSize={"20px"} />}
                     />
                     <Text fontSize={"18px"}>ParsaQa@info.com</Text>
                   </HStack>
 
                   <Grid
                     templateColumns={{ base: "repeat(2, 1fr)" }}
-                    bgColor={"#3646B333"}
+                    bgColor={"#006A711A"}
                     height={"46px"}
                     borderRadius={"9px"}
                     alignItems={"center"}
@@ -670,7 +671,7 @@ const MainLayout = ({
                     </GridItem>
                     <GridItem
                       padding={"5px"}
-                      bgColor={"#3646B3"}
+                      bgColor={"#006A71"}
                       borderRadius={"4px"}
                     >
                       <Text
@@ -694,7 +695,7 @@ const MainLayout = ({
             p={4}
             textAlign="center"
             w={"100%"}
-            bgColor={"#3646B3"}
+            bgColor={"#006A71"}
           >
             تمامی حقوق این وبسایت متعلق به موسسه هوش مصنوعی و تمدن اسلامی (همتا)
             است.
