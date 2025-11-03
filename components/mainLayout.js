@@ -2,14 +2,12 @@ import {
   Avatar,
   Box,
   Button,
-  Collapse,
-  Container,
-  Divider,
-  Fade,
+  chakra,
   Flex,
   Grid,
   GridItem,
   HStack,
+  Icon,
   IconButton,
   Image,
   Input,
@@ -30,29 +28,20 @@ import {
   Text,
   UnorderedList,
   useDisclosure,
+  useOutsideClick,
   VStack,
 } from "@chakra-ui/react";
+import { AnimatePresence, motion } from "framer-motion";
 import _ from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { CiSearch } from "react-icons/ci";
 import { FaTelegram } from "react-icons/fa";
-import { GiDiamondRing } from "react-icons/gi";
-import {
-  IoIosArrowDown,
-  IoIosNotificationsOutline,
-  IoLogoInstagram,
-  IoLogoLinkedin,
-  IoLogoTwitter,
-  IoLogoYoutube,
-} from "react-icons/io";
-import { IoCall, IoExitOutline, IoLocation, IoSearch } from "react-icons/io5";
-import { PiDiamondThin } from "react-icons/pi";
-import useSWR from "swr";
+import { IoLogoInstagram, IoLogoTwitter } from "react-icons/io";
+import { IoCall, IoLocation } from "react-icons/io5";
+import { TfiClose } from "react-icons/tfi";
 import { StringParam, useQueryParams, withDefault } from "use-query-params";
-import AdminMenuBar from "./admin_dashboard/adminMenuBar";
-import UserMenuBar from "./mobile/dashboard/userMenuBar";
-import MenuBar from "./mobile/menuBar";
 
 const menuList = [
   // {
@@ -61,18 +50,66 @@ const menuList = [
   // },
   {
     title: "کاربران",
-    link: "users",
     t_title: "header_users",
+    link: "users",
   },
   {
     title: "محصولات",
-    link: "products",
     t_title: "header_products",
+    link: "products",
   },
+  // {
+  //   title: "دیدگاه ها",
+  //   link: "users",
+  //   t_title: "header_users",
+  // },
+  // {
+  //   title: "کاربران",
+  //   link: "products",
+  //   t_title: "header_products",
+  // },
 ];
 
-const MainLayout = ({ children }) => {
+// const menuList = [
+//   {
+//     title: "داشبورد",
+//     t_title: "header_dashboard",
+//   },
+//   {
+//     title: "سوالات",
+//     t_title: "header_questions",
+//   },
+//   {
+//     title: "پاسخ ها",
+//     t_title: "header_answers",
+//   },
+//   {
+//     title: "دیدگاه ها",
+//     link: "users",
+//     t_title: "header_users",
+//   },
+//   {
+//     title: "کاربران",
+//     link: "products",
+//     t_title: "header_products",
+//   },
+// ];
+
+const MotionMenuList = chakra(motion(MenuList));
+const MotionBox1 = motion.div;
+
+
+const MainLayout = ({
+  children,
+  questionsRef,
+  menuDefault = false,
+  register,
+  watchSearch,
+}) => {
   const { t } = useTranslation();
+  const [isOpen2, setIsOpen2] = useState(false);
+
+  const [showMenu, setShowMenu] = useState(false);
 
   const router = useRouter();
   const { locale, asPath } = router;
@@ -93,9 +130,6 @@ const MainLayout = ({ children }) => {
   const [isUserLogin, setIsUserLogin] = useState(false);
   const inputRef = useRef(null);
 
-  const { data: dataMe, isLoading: isLoadingMe } = useSWR(
-    isUserLogin && `user/client/me`
-  );
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -118,25 +152,7 @@ const MainLayout = ({ children }) => {
   };
 
   const handleClickSearch = () => {
-    router.push(`/result_search?search=${search}&search_type=search`);
-  };
-  const handleClickSemanticSearch = () => {
-    router.push(`/result_search?search=${search}&search_type=semantic_search`);
-  };
-
-  const handleToggle = () => {
-    setShowInput((prev) => !prev);
-    setTimeout(() => {
-      inputRef.current?.focus();
-    }, 300); // Give time for animation
-  };
-
-  const handleClickMenuLink = (link) => {
-    router.push(`/${link}`);
-  };
-
-  const handleClickHome = () => {
-    router.push("/");
+    setFilters({ search_type: 'search', search: watchSearch("search"), type: undefined })
   };
 
   useEffect(() => {
@@ -153,10 +169,6 @@ const MainLayout = ({ children }) => {
     setIsUserLogin(!!localStorage.getItem("token"));
   }, []);
 
-  const handleLoginButton = () => {
-    router.push("/login");
-  };
-
   const handleFooterLink = (link) => {
     router.push(link);
   };
@@ -165,9 +177,13 @@ const MainLayout = ({ children }) => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
+    const screenHeight = window.innerHeight; // 👈 user’s screen height
     const handleScroll = () => {
       const scrollY = container.scrollTop;
-      setHideHeaderButton(scrollY >= 350); // you can use scrollY >= 500 to toggle button
+
+      setHideHeaderButton(scrollY >= screenHeight * 0.4);
+
+      setShowMenu(scrollY >= screenHeight);
     };
 
     container.addEventListener("scroll", handleScroll);
@@ -176,239 +192,241 @@ const MainLayout = ({ children }) => {
 
   const handleExit = () => {
     localStorage.removeItem("token");
-    window.open("/", "_self");
+    router.replace("/");
   };
 
   useEffect(() => {
     setSearch(filters?.search);
   }, [filters?.search]);
 
-  const handleProfileLink = () => {
-    router.push('/admin/questions')
+  const handleProfileLink = (link) => {
+    router.push(link);
   };
 
+  useOutsideClick({
+    ref: inputRef,
+    handler: () => setShowInput(false),
+  });
+
   return (
-    <VStack minHeight="100vh" w={"100%"} alignItems={"start"} gap={0}>
+    <VStack
+      minHeight="100vh"
+      w={"100%"}
+      alignItems={"start"}
+      gap={0}
+      position={"relative"}
+    >
       {/* header */}
-      <Box
-        as={Stack}
-        position="fixed" // 👈 Make it fixed
-        top={0}
-        left={0}
-        zIndex={999} // 👈 Ensure it stays on top
-        width="100%"
-        height={{ base: "60px", md: "100px" }}
-        alignItems={"center"}
-        justifyContent={"center"}
-        bg="white"
-        p={2}
-        px={{ base: 0, mode: 4 }}
-        borderBottom="1px"
-        borderBottomColor="gray.200"
-      >
-        <HStack
-          as={Container}
-          maxW="container.xl"
-          w={"100%"}
+      {(showMenu || menuDefault) && (
+        <Box
+          as={Stack}
+          position="fixed" // 👈 Make it fixed
+          top={0}
+          left={0}
+          zIndex={999} // 👈 Ensure it stays on top
+          width="100%"
+          height={{ base: "60px", md: "80px" }}
           alignItems={"center"}
-          pr={{ base: 0, md: "14px" }}
-          justifyContent={"space-between"}
+          justifyContent={"center"}
+          bg="#FFFFFF80" // 👈 semi-transparent background
+          backdropFilter="blur(38.2px)" // 👈 blur effect
+          p={2}
+          px={{ base: 0, mode: 4 }}
         >
           <HStack
-            w={"100%"}
-            alignItems={"center"}
-            height={"100%"}
+            maxW="container.xl"
             justifyContent={"space-between"}
+            w={"100%"}
           >
-            <HStack ml={"20px"} w={"100%"}>
-              {activePath == 0 ? (
-                <MenuBar />
-              ) : activePath == 1 ? (
-                <UserMenuBar />
-              ) : (
-                <AdminMenuBar />
-              )}
+            <HStack>
               <Image
-                src="/porsyab_header.png"
-                width={{ base: "42px", md: "40px" }}
-                height={{ base: "23px", md: "36px" }}
-                onClick={handleClickHome}
+                src="/logoheader2.png"
+                width={{ base: "49px", md: "144px" }}
+                height={{ base: "23px", md: "41px" }}
+                onClick={(e) => router.push("/")}
                 cursor={"pointer"}
               />
-              <Image
-                src="/porsyab_footer.png"
-                width={{ base: "50px", md: "40px" }}
-                height={{ base: "35px", md: "36px" }}
-                onClick={handleClickHome}
-                cursor={"pointer"}
-              />
-              {(hideHeaderButton || !(asPath == "/")) && (
-                <InputGroup
-                  width={"327px"}
-                  display={{ base: "none", md: "block" }}
-                >
-                  <Input
-                    height={"46px"}
-                    value={search}
-                    placeholder={t("search")}
-                    onChange={(e) => setSearch(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        handleClickSearch();
-                      }
-                    }}
+            </HStack>
+            <HStack>
+              <Box height="60px" display="flex" alignItems="center" ml={"0px"}>
+                {!showInput ? (
+                  <Icon
+                    as={CiSearch}
+                    color={"#006A71"}
+                    fontSize={{ base: "20px", md: "29px" }}
+                    style={{ marginLeft: "20px", cursor: "pointer" }}
+                    onClick={() => setShowInput(true)}
                   />
-                  <InputRightElement h="100%" ml="20px">
-                    <Flex align="center" gap="2">
-                      <IoSearch
-                        fontSize="20px"
-                        style={{ marginTop: "2px" }}
-                        color="#29CCCC"
+                ) : (
+                  <InputGroup width="490px" height="60px" ref={inputRef}>
+                    <Input
+                      border="1px"
+                      borderColor="#3646B366"
+                      height="60px"
+                      width="490px"
+                      placeholder="جستجو..."
+                      bg="white"
+                      borderRadius="10px"
+                      {...register("search")}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          handleClickSearch();
+                        }
+                      }}
+                      _focus={{ borderColor: "blue.400" }}
+                    />
+                    <InputRightElement height="60px" ml={"16px"}>
+                      <Icon
+                        as={CiSearch}
+                        cursor="pointer"
                         onClick={handleClickSearch}
-                        cursor={"pointer"}
+                        fontSize={{ base: "20px", md: "30px" }}
+                        color="#006A71"
                       />
-                      <PiDiamondThin
-                        fontSize="20px"
-                        style={{ marginTop: "2px" }}
-                        color="#29CCCC"
-                        onClick={handleClickSemanticSearch}
-                        cursor={"pointer"}
-                      />
-                    </Flex>
-                  </InputRightElement>
-                </InputGroup>
-              )}
-            </HStack>
-            <HStack
-              w={"100%"}
-              justifyContent={"end"}
-              alignItems={"end"}
-              display={{ base: "flex", md: "none" }}
-            >
-              <Fade in={!showInput}>
-                {!showInput && (
-                  <IconButton
-                    icon={<IoSearch color="#29CCCC" />}
-                    aria-label="Search"
-                    fontSize="20px"
-                    variant="ghost"
-                    onClick={handleToggle}
-                    transition="all 0.3s ease"
-                  />
+                    </InputRightElement>
+                  </InputGroup>
                 )}
-              </Fade>
+              </Box>
+              {!isUserLogin ? (
+                <HStack
+                  cursor="pointer"
+                  onClick={() => router.push("/login")}
+                  role="group" // 👈 important: allows child hover detection
+                  _hover={{ bgColor: "#3646B31A", width: "173px" }}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                  height={"60px"}
+                  width={"fit-content"}
+                  borderRadius={"15px"}
+                >
+                  <Text
+                    fontFamily="iransans"
+                    fontWeight="500"
+                    fontSize="20px"
+                    color="#3646B3"
+                    display={"none"} // hidden initially
+                    transform="translateX(-10px)" // slight left offset
+                    transition="all 0.3s ease"
+                    _groupHover={{
+                      display: "flex",
+                      transform: "translateX(0)", // slide in
+                    }}
+                  >
+                    {t("log_sub")}
+                  </Text>
 
-              <Collapse in={showInput} animateOpacity style={{ marginLeft: 8 }}>
-                <InputGroup size="md" w="150px">
-                  <Input
-                    ref={inputRef}
-                    placeholder={t("search")}
-                    variant="filled"
-                    bg="white"
-                    borderRadius="md"
-                    onBlur={() => setShowInput(false)} // Optional: hide on blur
+                  <Image
+                    src="/headerpersonlogo.png"
+                    height={{ base: "15px", md: "29px" }} width={{ base: "15px", md: "28px" }}
                   />
-                  <InputRightElement>
-                    <IoSearch color="gray.500" />
-                  </InputRightElement>
-                </InputGroup>
-              </Collapse>
-              <IconButton
-                icon={<IoExitOutline color="#29CCCC" />}
-                aria-label="Search"
-                fontSize="20px"
-                variant="ghost"
-              />
+                </HStack>
+              ) : (
+                <Avatar fontSize={"46px"} src="/avatar.png" />
+              )}
+
+              <Menu isOpen={isOpen2} onOpen={() => setIsOpen2(true)} onClose={() => setIsOpen2(false)} placement="bottom-end">
+                <MenuButton as={Button}>
+                  <AnimatePresence mode="wait" initial={false}>
+                    <MotionBox1
+                      key={isOpen2 ? "close" : "menu"}
+                      initial={{ rotate: 0, opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      {isOpen2 ? <IconButton icon={<TfiClose size={'20px'} />} color={'#3646B3'} /> : <Image src="/headermenu.png" height={{ base: "27px", md: "29px" }} width={{ base: "27px", md: "25px" }} mr={{ base: "5px", md: "20px" }} />}
+                    </MotionBox1>
+                  </AnimatePresence>
+
+                </MenuButton>
+
+                <AnimatePresence>
+                  {isOpen2 && (
+                    <MotionMenuList
+                      // 👇 animation
+                      initial={{ opacity: 0, height: '0px' }}
+                      animate={{ opacity: 1, height: 'fit-content' }}
+                      exit={{ opacity: 0, height: '0px' }}
+                      transition={{ duration: 1.6, ease: "easeInOut" }}
+                      // 👇 your original Chakra UI props
+                      bgColor={"#EBEDF8E5"}
+                      padding={"12px"}
+                      w={"237px"}
+                      h={"289px"}
+                      backdropFilter="blur(27.6px)"
+                      boxShadow={`
+              0px 14px 30px 0px #0000001A,
+              0px 54px 54px 0px #00000017,
+              0px 122px 73px 0px #0000000D,
+              0px 216px 86px 0px #00000003,
+              0px 338px 95px 0px #00000000
+            `}
+                      borderRadius={"30px"}
+                    >
+                      <MenuItem
+                        _hover={{ bgColor: "#3646B333" }}
+                        borderRadius="15px"
+                        bgColor="#3646B30D"
+                        my="5px"
+                        h="35px"
+                        onClick={() => handleProfileLink(isUserLogin ? '/dashboard/profile' : '/login')}
+                      >
+                        {isUserLogin ? 'پروفایل' : 'ورود/ثبت‌نام'}
+                      </MenuItem>
+                      <MenuItem
+                        _hover={{ bgColor: "#3646B333" }}
+                        borderRadius="15px"
+                        bgColor="#3646B30D"
+                        my="5px"
+                        h="35px"
+                      >
+                        منابع و مراجع
+                      </MenuItem>
+                      <MenuItem
+                        _hover={{ bgColor: "#3646B333" }}
+                        borderRadius="15px"
+                        bgColor="#3646B30D"
+                        my="5px"
+                        h="35px"
+                      >
+                        اخبار
+                      </MenuItem>
+                      <MenuItem
+                        _hover={{ bgColor: "#3646B333" }}
+                        borderRadius="15px"
+                        bgColor="#3646B30D"
+                        my="5px"
+                        h="35px"
+                      >
+                        کاربران
+                      </MenuItem>
+                      <MenuItem
+                        _hover={{ bgColor: "#3646B333" }}
+                        borderRadius="15px"
+                        bgColor="#3646B30D"
+                        my="5px"
+                        h="35px"
+                      >
+                        پشتیبانی و راه ارتباطی
+                      </MenuItem>
+                      {isUserLogin && <MenuItem
+                        _hover={{ bgColor: "#3646B333" }}
+                        borderRadius="15px"
+                        bgColor="#3646B30D"
+                        my="5px"
+                        h="35px"
+                        onClick={() => handleExit()}
+                      >
+                        خروج از حساب کاربری
+                      </MenuItem>}
+                    </MotionMenuList>
+                  )}
+                </AnimatePresence>
+              </Menu>
             </HStack>
           </HStack>
-          <HStack spacing={4} display={{ base: "none", md: "flex" }}>
-            {menuList?.map((item) => (
-              <Text
-                _hover={{ bgColor: "gray.100" }}
-                borderRadius={"5px"}
-                padding={"5px"}
-                textAlign={"center"}
-                fontSize={"sm"}
-                w={"70px"}
-                onClick={(e) => handleClickMenuLink(item?.link)}
-                cursor={"pointer"}
-              >
-                {t(item?.t_title)}
-              </Text>
-            ))}
-            <Menu>
-              <MenuButton px={4} py={2} transition="all 0.2s">
-                <HStack>
-                  <Text fontSize={"sm"}>
-                    {locale == "en"
-                      ? t("header_english")
-                      : locale == "fa"
-                        ? t("header_persian")
-                        : locale == "ar" && t("header_arabic")}
-                  </Text>
-                  <IoIosArrowDown />
-                </HStack>
-              </MenuButton>
-              <MenuList>
-                <MenuItem
-                  value={"en"}
-                  onClick={(e) => router.push("/", "/", { locale: "en" })}
-                >
-                  {t("header_english")}
-                </MenuItem>
-                <MenuItem
-                  value={"ar"}
-                  onClick={(e) => router.push("/", "/", { locale: "ar" })}
-                >
-                  {t("header_arabic")}
-                </MenuItem>
-                <MenuItem
-                  value={"fa"}
-                  onClick={(e) => router.push("/", "/", { locale: "fa" })}
-                >
-                  {t("header_persian")}
-                </MenuItem>
-              </MenuList>
-            </Menu>
-            {!isUserLogin && (
-              <Button
-                w={"180px"}
-                bgColor={"#29CCCC"}
-                fontWeight={"normal"}
-                onClick={handleLoginButton}
-              >
-                {t("log_sub")}
-              </Button>
-            )}
-            {isUserLogin && (
-              <HStack>
-                <IoIosNotificationsOutline fontSize={"20px"} color="#29CCCC" />
-                <GiDiamondRing fontSize={"20px"} color="#29CCCC" />
-
-                <Menu>
-                  <MenuButton px={4} py={2} transition="all 0.2s">
-                    <HStack>
-                      <Avatar size={"sm"} />
-                    </HStack>
-                  </MenuButton>
-                  <MenuList>
-                    <MenuItem
-                      fontWeight={"bold"}
-                      cursor={"pointer"}
-                      onClick={(e) => handleProfileLink()}
-                    >
-                      {" "}
-                      پنل ادمین
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem onClick={(e) => handleExit()}>خروج</MenuItem>
-                  </MenuList>
-                </Menu>
-              </HStack>
-            )}
-          </HStack>
-        </HStack>
-      </Box>
+        </Box>
+      )}
       {/* header */}
       <HStack
         height={"calc( 100vh )"}
@@ -417,11 +435,22 @@ const MainLayout = ({ children }) => {
         alignItems={"start"}
         overflowY={"scroll"}
         ref={scrollContainerRef}
+        scrollSnapType="y mandatory"
+        scrollBehavior="smooth"
       >
         {/* Main content area */}
-        <VStack height={"calc( 100vh - 76px )"} w={"100%"} gap={0}>
+        <VStack height={"calc( 100vh )"} w={"100%"} gap={0} scrollSnapAlign="start"
+          scrollSnapStop="always"
+          display="flex"
+          flexDirection="column" align="stretch"      // 👈 allows children to fill width
+          justify="stretch" >
           {children}
-          <Stack w={"100%"} bg="#F7F7F7" alignItems={"center"}>
+          <Stack
+            w={"100%"}
+            bg="#F7F7F7"
+            alignItems={"center"}
+            scrollSnapAlign="start"
+          >
             <Box
               maxW="container.xl"
               as="footer"
@@ -432,6 +461,8 @@ const MainLayout = ({ children }) => {
               justifyContent={"center"}
               mx="auto"
               p={"20px"}
+              pt={"50px"}
+              pb={"30px"}
             >
               <Stack
                 direction={{ base: "column", md: "row" }}
@@ -441,145 +472,216 @@ const MainLayout = ({ children }) => {
                 gap={"40px"}
               >
                 <VStack
-                  alignItems={"center"}
-                  gap={"10px"}
+                  alignItems={"start"}
+                  gap={"20px"}
                   height={"100%"}
                   w={"100%"}
                 >
-                  <Image
-                    src="/porsyab_header.png"
-                    width={"51px"}
-                    height={"52px"}
-                  />
-                  <Image
-                    src="/porsyab_footer.png"
-                    width={"70px"}
-                    height={"50px"}
-                  />
-                  <Text w={"326px"} fontSize={"16px"} textAlign={"justify"}>
+                  <Flex flexDir={{ base: 'row', md: 'column' }} gap={'10px'} alignItems={'center'}>
+                    <Image src="/question.png" width={"51px"} height={"72px"} />
+                    <Image
+                      src="/parsaheader.png"
+                      width={"118px"}
+                      height={"48px"}
+                    />
+                  </Flex>
+                  <Text
+                    w={"326px"}
+                    fontSize={"16px"}
+                    textAlign={"justify"}
+                    color={"#333333"}
+                    letterSpacing={"-3%"}
+                    width={{ base: '100%', md: 'fit-content' }}
+                  >
                     {t("footer_parsa_info")}
                   </Text>
                 </VStack>
-                <VStack
-                  alignItems={"start"}
-                  gap={"20px"}
-                  height={"100%"}
-                  w={"100%"}
-                >
-                  <Text color={"#3646B3"} fontSize={"20px"} fontWeight={"bold"}>
-                    {t("parsa")}
-                  </Text>
-                  <UnorderedList
-                    textAlign={"start"}
-                    spacing={"10px"}
-                    sx={{
-                      li: {
-                        color: "black", // text color
-                        "::marker": {
-                          color: "#29CCCC", // 🔵 your custom bullet color
-                        },
-                      },
-                    }}
+
+                <VStack w={"100%"} height={"100%"}>
+                  <VStack
+                    alignItems={"start"}
+                    gap={"20px"}
+                    height={"100%"}
+                    w={"100%"}
                   >
-                    <ListItem onClick={e => router.push('/')} cursor={'pointer'}>{t("home")}</ListItem>
-                    {/* <ListItem>{t("questions")}</ListItem>
-                    <ListItem>{t("tags")}</ListItem> */}
-                    {/* <ListItem>{t("users")}</ListItem> */}
-                    <ListItem
-                      cursor={"pointer"}
-                      onClick={(e) => handleFooterLink("/aboutus")}
-                    >
-                      {t("about_us")}
-                    </ListItem>
-                    {/* <ListItem>{t("terms_of_use")}</ListItem> */}
-                  </UnorderedList>
-                </VStack>
-                <VStack
-                  w={"100%"}
-                  alignItems={"start"}
-                  gap={"20px"}
-                  height={"100%"}
-                >
-                  <Text color={"#3646B3"} fontSize={"20px"} fontWeight={"bold"}>
-                    {t("products")}
-                  </Text>
-                  <UnorderedList
-                    textAlign={"start"}
-                    spacing={"10px"}
-                    sx={{
-                      li: {
-                        color: "black", // text color
-                        "::marker": {
-                          color: "#29CCCC", // 🔵 your custom bullet color
-                        },
-                      },
-                    }}
-                  >
-                    <ListItem>{t("intelligent_question")}</ListItem>
-                    <ListItem>{t("similar_question")}</ListItem>
-                    <ListItem>{t("spelling_correction")}</ListItem>
-                    <ListItem>{t("question_recommendation")}</ListItem>
-                    <ListItem>{t("keyword_extraction")}</ListItem>
-                    <ListItem>{t("question_text_summarization")}</ListItem>
-                    <ListItem>{t("question_text_classification")}</ListItem>
-                    <ListItem>{t("open_domain_question")}</ListItem>
-                  </UnorderedList>
-                </VStack>
-                <VStack
-                  alignItems={"start"}
-                  gap={"20px"}
-                  height={"100%"}
-                  w={"100%"}
-                >
-                  <Text color={"#3646B3"} fontSize={"20px"} fontWeight={"bold"}>
-                    {t("contact_us")}
-                  </Text>
-                  <HStack w={"100%"} alignItems={"start"} textAlign={"start"}>
-                    <IconButton
-                      icon={<IoLocation color="#29CCCC" fontSize={"20px"} />}
-                    />
-                    <Text width={"auto"}>{t("address")}</Text>
-                  </HStack>
-                  <HStack>
-                    <IconButton
-                      icon={<IoCall color="#29CCCC" fontSize={"20px"} />}
-                    />
-                    <Text>09127468103</Text>
-                  </HStack>
-                  <VStack alignItems={"start"}>
                     <Text
                       color={"#3646B3"}
-                      fontSize={"20px"}
+                      fontSize={"22px"}
                       fontWeight={"bold"}
+                      fontFamily={"morabba"}
+                    >
+                      {t("parsa")}
+                    </Text>
+                    <UnorderedList
+                      width={"100%"}
+                      display="grid"
+                      gridTemplateColumns="repeat(2, 1fr)" // 🔥 two columns
+                      gap="10px" // spacing between items
+                      textAlign="start"
+                      sx={{
+                        li: {
+                          color: "black",
+                          "::marker": {
+                            color: "#29CCCC", // custom bullet color
+                          },
+                        },
+                      }}
+                    >
+                      <ListItem
+                        cursor="pointer"
+                        onClick={() => handleFooterLink("/")}
+                      >
+                        {t("home")}
+                      </ListItem>
+                      <ListItem
+                        cursor="pointer"
+                        onClick={() => handleFooterLink("/users")}
+                      >
+                        کاربران
+                      </ListItem>
+                      <ListItem
+                        cursor="pointer"
+                        onClick={() => handleFooterLink("/source_reference")}
+                      >
+                        منابع و مراجع
+                      </ListItem>
+                      <ListItem
+                        cursor="pointer"
+                        onClick={() => handleFooterLink("/")}
+                      >
+                        اخبار
+                      </ListItem>
+                      <ListItem
+                        cursor="pointer"
+                        onClick={() => handleFooterLink("/aboutus")}
+                      >
+                        {t("about_us")}
+                      </ListItem>
+                      {/* add more items */}
+                    </UnorderedList>
+                  </VStack>
+                  <Flex flexDir={{ base: 'column', md: 'row' }}
+                    alignItems={"start"}
+                    justifyContent={"start"}
+                    w={"100%"}
+                    mb={{ base: '10px', md: 'none' }}
+                  >
+                    <Text
+                      color={"#3646B3"}
+                      fontSize={"22px"}
+                      fontWeight={"bold"}
+                      fontFamily={"morabba"}
+                      width={"fit-content"}
+                      mb={{ base: '10px', md: 'none' }}
                     >
                       {t("social_media")}
                     </Text>
-                    <HStack>
+                    <HStack gap={"20px"}>
                       <IconButton
                         icon={
                           <IoLogoTwitter color="#29CCCC" fontSize={"20px"} />
                         }
+                        boxShadow={`
+                        0px 2px 4px 0px #0000000D,
+                        0px 8px 8px 0px #0000000A,
+                        0px 18px 11px 0px #00000008,
+                        0px 32px 13px 0px #00000003,
+                        0px 50px 14px 0px #00000000
+                      `}
                       />
                       <IconButton
                         icon={
                           <IoLogoInstagram color="#29CCCC" fontSize={"20px"} />
                         }
+                        boxShadow={`
+                        0px 2px 4px 0px #0000000D,
+                        0px 8px 8px 0px #0000000A,
+                        0px 18px 11px 0px #00000008,
+                        0px 32px 13px 0px #00000003,
+                        0px 50px 14px 0px #00000000
+                      `}
                       />
                       <IconButton
                         icon={<FaTelegram color="#29CCCC" fontSize={"20px"} />}
-                      />
-                      <IconButton
-                        icon={
-                          <IoLogoYoutube color="#29CCCC" fontSize={"20px"} />
-                        }
-                      />
-                      <IconButton
-                        icon={
-                          <IoLogoLinkedin color="#29CCCC" fontSize={"20px"} />
-                        }
+                        boxShadow={`
+                        0px 2px 4px 0px #0000000D,
+                        0px 8px 8px 0px #0000000A,
+                        0px 18px 11px 0px #00000008,
+                        0px 32px 13px 0px #00000003,
+                        0px 50px 14px 0px #00000000
+                      `}
                       />
                     </HStack>
-                  </VStack>
+                  </Flex>
+                </VStack>
+
+                <VStack
+                  alignItems={"start"}
+                  gap={"20px"}
+                  height={"fit-content"}
+                  w={"fit-content"}
+                  minW={"348px"}
+                  border={"1px"}
+                  borderColor={"#3646B3"}
+                  borderRadius={"15px"}
+                  position={"relative"}
+                  padding={"20px"}
+                >
+                  <Text
+                    color={"#3646B3"}
+                    bgColor={"#F7F7F7"}
+                    px={"10px"}
+                    fontSize={"22px"}
+                    fontWeight={"700"}
+                    fontFamily={"morabba"}
+                    position={"absolute"}
+                    top={"-20px"}
+                    right={"12px"}
+                  >
+                    پشتیبانی و راه ارتباطی
+                  </Text>
+                  <HStack alignItems={"center"} textAlign={"start"} mt={"20px"}>
+                    <IconButton
+                      icon={<IoLocation color="#29CCCC" fontSize={"20px"} />}
+                    />
+                    <Text fontSize={"18px"} dir="ltr">0253 222 33 44</Text>
+                  </HStack>
+                  <HStack>
+                    <IconButton
+                      icon={<IoCall color="#29CCCC" fontSize={"20px"} />}
+                    />
+                    <Text fontSize={"18px"}>ParsaQa@info.com</Text>
+                  </HStack>
+
+                  <Grid
+                    templateColumns={{ base: "repeat(2, 1fr)" }}
+                    bgColor={"#3646B333"}
+                    height={"46px"}
+                    borderRadius={"9px"}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                    width={"308px"}
+                    padding={"8px"}
+                  >
+                    <GridItem>
+                      <Text fontWeight={"600"} fontSize={"14px"}>
+                        پشتیبانی و رفع مشکلات
+                      </Text>
+                    </GridItem>
+                    <GridItem
+                      padding={"5px"}
+                      bgColor={"#3646B3"}
+                      borderRadius={"4px"}
+                    >
+                      <Text
+                        color={"white"}
+                        fontWeight={"600"}
+                        fontSize={"14px"}
+                      >
+                        ثبت تیکت
+                      </Text>
+                    </GridItem>
+                  </Grid>
                 </VStack>
               </Stack>
             </Box>
@@ -592,7 +694,7 @@ const MainLayout = ({ children }) => {
             p={4}
             textAlign="center"
             w={"100%"}
-            bgColor={"#006b74"}
+            bgColor={"#3646B3"}
           >
             تمامی حقوق این وبسایت متعلق به موسسه هوش مصنوعی و تمدن اسلامی (همتا)
             است.
